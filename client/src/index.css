@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@700&display=swap');
 
 
-/* font-family: 'Poppins', sans-serif; */
-/* font-family: "Playfair Display", serif; */
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+/* font-family: 'Poppins', sans-serif; */
+/* font-family: "Playfair Display", serif; */
+
 
 /* //navbar css */
 .navbar {
@@ -20,10 +20,67 @@
   /* if some browser dont support then alternative is just below */
   --webkit-box-shadow: 0 8px 6px -6px gray;
   border-bottom: 0px solid gray !important;
+ 
+  
 }
 
 .nav-link {
   font-weight: 30 !important;
   /* !important overrides existing class */
   
+}
+
+.active {
+  border-bottom: 2px solid black;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-family: 'roboto', sans-serif;
+  letter-spacing: 3px;
+}
+
+/* =============== footer ===================== */
+
+.footer {
+  color: white;
+  padding: 25px;
+  background: rgb(39,39,99);
+  background: linear-gradient(90deg, rgba(39,39,99,1) 0%, rgba(1,1,17,1) 0%, rgba(21,21,102,1) 0%, rgba(32,38,39,1) 100%, rgba(0,0,0,1) 100%);
+}
+
+.footer a{
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+}
+
+.footer a:hover{
+  color: #b4ae9b;
+}
+
+/* =============== page not found ===================== */
+.pnf {
+  display: flex;
+  min-height: 65vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pnf-title {
+  font-size: 100px;
+  font-weight: 700px;
+  
+}
+
+.pnf-heading {
+  font-weight: normal;
+}
+
+.pnf-btn {
+  color: black;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 10px;
 }
