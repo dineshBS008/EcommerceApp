@@ -21,11 +21,19 @@
   --webkit-box-shadow: 0 8px 6px -6px gray;
   border-bottom: 0px solid gray !important;
  
+ 
   
+}
+
+.navbar-nav {
+  text-align: right;
+  margin: auto;
 }
 
 .nav-link {
   font-weight: 30 !important;
+  margin-right: 2rem;
+  font-size: medium;
   /* !important overrides existing class */
   
 }
