@@ -54,7 +54,7 @@
   color: white;
   padding: 25px;
   background: rgb(39,39,99);
-  background: linear-gradient(90deg, rgba(39,39,99,1) 0%, rgba(1,1,17,1) 0%, #151566 0%, rgba(32,38,39,1) 100%, rgba(0,0,0,1) 100%);
+  background: linear-gradient(90deg, rgba(39,39,99,1) 0%, rgba(127,127,135,0.8688725490196079) 0%, rgba(21,21,102,1) 0%, rgba(54,50,50,1) 0%, rgba(32,38,39,1) 100%);
 }
 
 .footer a{
@@ -91,4 +91,13 @@
   border: 1px solid black;
   padding: 10px;
   margin-top: 10px;
+}
+
+/* =============== register page ===================== */
+.register {
+  display: flex;
+  align-items: center;
+  justify-content:  center;
+  height: 70vh;
+  flex-direction: column;
 }

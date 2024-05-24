@@ -4,7 +4,7 @@ import {BiMailSend, BiPhoneCall, BiSupport} from "react-icons/bi";
 
 const Policy = () => {
   return (
-    <Layout>
+    <Layout title={"Privacy Policy"}>
         <div className='row contactus'>
           <div className='col-md-6'> 
             <img
