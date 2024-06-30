@@ -23,7 +23,7 @@ const Register = () => {
         phone,
         address,
       });
-      if (res.data.success) {
+      if (res && res.data.success) {
         toast.success(res.data.message);
         navigate("/login");
       } else {
