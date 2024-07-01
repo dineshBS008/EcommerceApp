@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../context/auth";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -11,6 +12,7 @@ const Header = () => {
       token: "",
     });
     localStorage.removeItem("auth");
+    toast.success("Logout Successfully");
   };
   return (
     <>
