@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@700&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@700&display=swap");
 
 * {
   margin: 0;
@@ -9,10 +8,9 @@
 /* font-family: 'Poppins', sans-serif; */
 /* font-family: "Playfair Display", serif; */
 
-
 /* //navbar css */
 .navbar {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 12px;
   line-height: 26px;
   text-transform: uppercase;
@@ -20,9 +18,6 @@
   /* if some browser dont support then alternative is just below */
   --webkit-box-shadow: 0 8px 6px -6px gray;
   border-bottom: 0px solid gray !important;
- 
- 
-  
 }
 
 .navbar-nav {
@@ -35,7 +30,6 @@
   margin-right: 2rem;
   font-size: medium;
   /* !important overrides existing class */
-  
 }
 
 .active {
@@ -44,7 +38,7 @@
 
 .navbar-brand {
   font-weight: 700;
-  font-family: 'roboto', sans-serif;
+  font-family: "roboto", sans-serif;
   letter-spacing: 3px;
 }
 
@@ -53,17 +47,24 @@
 .footer {
   color: white;
   padding: 25px;
-  background: rgb(39,39,99);
-  background: linear-gradient(90deg, rgba(39,39,99,1) 0%, rgba(127,127,135,0.8688725490196079) 0%, rgba(21,21,102,1) 0%, rgba(54,50,50,1) 0%, rgba(32,38,39,1) 100%);
+  background: rgb(39, 39, 99);
+  background: linear-gradient(
+    90deg,
+    rgba(39, 39, 99, 1) 0%,
+    rgba(127, 127, 135, 0.8688725490196079) 0%,
+    rgba(21, 21, 102, 1) 0%,
+    rgba(54, 50, 50, 1) 0%,
+    rgba(32, 38, 39, 1) 100%
+  );
 }
 
-.footer a{
+.footer a {
   text-decoration: none;
   color: white;
   padding: 10px;
 }
 
-.footer a:hover{
+.footer a:hover {
   color: #b4ae9b;
 }
 
@@ -79,7 +80,6 @@
 .pnf-title {
   font-size: 100px;
   font-weight: 700px;
-  
 }
 
 .pnf-heading {
@@ -94,10 +94,10 @@
 }
 
 /* =============== register page ===================== */
-.register {
+/* .register {
   display: flex;
   align-items: center;
-  justify-content:  center;
+  justify-content: center;
   height: 70vh;
   flex-direction: column;
-}
+} */
