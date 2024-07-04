@@ -69,11 +69,6 @@ const Login = () => {
           </div>
 
           <div className="mb-3">
-            <button type="submit" className="btn btn-primary">
-              LOGIN
-            </button>
-          </div>
-          <div className="mb-3">
             <button
               type="button"
               className="btn btn-primary"
@@ -84,6 +79,10 @@ const Login = () => {
               Forgot Password
             </button>
           </div>
+
+          <button type="submit" className="btn btn-primary">
+            LOGIN
+          </button>
         </form>
       </div>
     </Layout>
