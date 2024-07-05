@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -14,12 +16,17 @@ const Header = () => {
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
   };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid ">
+        <div className="container-fluid">
           <button
-            className="navbar-toggler "
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarTogglerDemo01"
@@ -36,8 +43,7 @@ const Header = () => {
               🛒 Ecommerce App
             </Link>
 
-            <ul className="navbar-nav  mb-2  ">
-              <li className="nav-item"></li>
+            <ul className="navbar-nav mb-2">
               <li className="nav-item">
                 <NavLink
                   to="/"
@@ -59,18 +65,13 @@ const Header = () => {
                     <NavLink
                       to="/register"
                       className="nav-link text-black-50"
-                      href="#"
                     >
                       Register
                     </NavLink>
                   </li>
 
                   <li className="nav-item">
-                    <NavLink
-                      to="/login"
-                      className="nav-link text-black-50"
-                      href="#"
-                    >
+                    <NavLink to="/login" className="nav-link text-black-50">
                       Login
                     </NavLink>
                   </li>
@@ -79,27 +80,33 @@ const Header = () => {
                 <>
                   {/* Issue from here */}
                   <li className="nav-item dropdown">
-                    <NavLink
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
+                    <button
+                      className="nav-link  text-black-50 dropdown-toggle button-no-border mt-2"
+                      onClick={toggleDropdown}
+                      type="button"
+                      aria-expanded={dropdownOpen}
                     >
-                      {auth?.user?.name}
-                    </NavLink>
-                    <ul className="dropdown-menu">
+                      {auth?.user?.name?.toUpperCase()}
+
+                    </button>
+                    <ul className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
                       <li>
-                        <NavLink to="/dashboard" className="dropdown-item">
+                        <NavLink
+                          to="/dashboard"
+                          className="dropdown-item"
+                          onClick={toggleDropdown}
+                        >
                           Dashboard
                         </NavLink>
                       </li>
                       <li>
                         <NavLink
-                          onClick={handleLogout}
+                          onClick={() => {
+                            handleLogout();
+                            toggleDropdown();
+                          }}
                           to="/login"
                           className="dropdown-item"
-                          href="#"
                         >
                           Logout
                         </NavLink>
@@ -110,12 +117,8 @@ const Header = () => {
                 </>
               )}
 
-              <li className="nav-item ">
-                <NavLink
-                  to="/cart"
-                  className="nav-link text-black-50 "
-                  href="#"
-                >
+              <li className="nav-item">
+                <NavLink to="/cart" className="nav-link text-black-50">
                   Cart(0)
                 </NavLink>
               </li>

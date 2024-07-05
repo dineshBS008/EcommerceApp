@@ -6,6 +6,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
