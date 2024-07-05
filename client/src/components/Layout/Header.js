@@ -62,10 +62,7 @@ const Header = () => {
               {!auth.user ? (
                 <>
                   <li className="nav-item">
-                    <NavLink
-                      to="/register"
-                      className="nav-link text-black-50"
-                    >
+                    <NavLink to="/register" className="nav-link text-black-50">
                       Register
                     </NavLink>
                   </li>
@@ -87,9 +84,10 @@ const Header = () => {
                       aria-expanded={dropdownOpen}
                     >
                       {auth?.user?.name?.toUpperCase()}
-
                     </button>
-                    <ul className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
+                    <ul
+                      className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}
+                    >
                       <li>
                         <NavLink
                           to="/dashboard"
