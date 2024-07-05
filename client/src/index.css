@@ -93,6 +93,14 @@
   margin-top: 10px;
 }
 
+.button-no-border {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+
 /* =============== register page ===================== */
 /* .register {
   display: flex;
