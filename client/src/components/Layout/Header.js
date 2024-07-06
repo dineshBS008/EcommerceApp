@@ -90,7 +90,9 @@ const Header = () => {
                     >
                       <li>
                         <NavLink
-                          to="/dashboard"
+                          to={`/dashboard/${
+                            auth?.user?.role === 1 ? "admin" : "user"
+                          }`}
                           className="dropdown-item"
                           onClick={toggleDropdown}
                         >
