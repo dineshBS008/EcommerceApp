@@ -33,7 +33,7 @@ const CreateCategory = () => {
           </div>
           <div className="col-md-9">
             <h1>Manage Category</h1>
-            <div>
+            <div className="w-75">
               <table className="table">
                 <thead>
                   <tr>
@@ -42,11 +42,16 @@ const CreateCategory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    {categories.map((c) => (
-                      <td key={c._id}>{c.name}</td>
-                    ))}
-                  </tr>
+                  {categories?.map((c) => (
+                    <>
+                      <tr>
+                        <td key={c._id}>{c.name}</td>
+                        <td>
+                          <button className="btn btn-primary">Edit</button>
+                        </td>
+                      </tr>
+                    </>
+                  ))}
                 </tbody>
               </table>
             </div>
