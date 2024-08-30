@@ -100,7 +100,6 @@
   margin: 0;
 }
 
-
 /* =============== register page ===================== */
 /* .register {
   display: flex;
@@ -109,3 +108,9 @@
   height: 70vh;
   flex-direction: column;
 } */
+
+/* ================== */
+.product-link {
+  text-decoration: none !important;
+  color: black !important;
+}
