@@ -1,29 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import DropIn from "braintree-web-drop-in-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
+  const [clientToken, setClientToken] = useState("");
+  const [instance, setInstance] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   //total price
-  //   const totalPrice = () => {
-  //     try {
-  //       let total = 0;
-  //       cart?.map((item) => {
-  //         total = total + item.price;
-  //       });
-  //       return total.toLocaleString("en-US", {
-  //         style: "currency",
-  //         currency: "USD",
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const totalPrice = () => {
+    try {
+      let total = cart?.reduce((acc, item) => acc + item.price, 0);
+      return total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //detele item
   const removeCartItem = (pid) => {
@@ -35,6 +38,39 @@ const CartPage = () => {
       localStorage.setItem("cart", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //get payment gateway token
+  const getToken = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/product/braintree/token");
+      setClientToken(data?.clientToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getToken();
+  }, [auth?.token]);
+
+  //handle payments
+  const handlePayment = async () => {
+    try {
+      setLoading(true);
+      const { nonce } = await instance.requestPaymentMethod();
+      const { data } = await axios.post("/api/v1/product/braintree/payment", {
+        nonce,
+        cart,
+      });
+      setLoading(false);
+      localStorage.removeItem("cart");
+      setCart([]);
+      navigate("/dashboard/user/orders");
+      toast.success("Payment Completed Successfully ");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
   };
 
@@ -86,7 +122,7 @@ const CartPage = () => {
             <h2>Cart Summary</h2>
             <p>Total | Checkout | Payment</p>
             <hr />
-            <h4>Total : </h4>
+            <h4>Total : {totalPrice()} </h4>
             {auth?.user?.address ? (
               <>
                 <div className="mb-3">
@@ -123,6 +159,31 @@ const CartPage = () => {
                 )}
               </div>
             )}
+            <div className="mt-2">
+              {!clientToken || !auth?.token || !cart?.length ? (
+                ""
+              ) : (
+                <>
+                  <DropIn
+                    options={{
+                      authorization: clientToken,
+                      paypal: {
+                        flow: "vault",
+                      },
+                    }}
+                    onInstance={(instance) => setInstance(instance)}
+                  />
+
+                  <button
+                    className="btn btn-primary"
+                    onClick={handlePayment}
+                    disabled={loading || !instance || !auth?.user?.address}
+                  >
+                    {loading ? "Processing ...." : "Make Payment"}
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
