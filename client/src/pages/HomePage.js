@@ -8,6 +8,7 @@ import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
+import "../styles/Homepage.css";
 
 const HoePage = () => {
   const [auth, setAuth] = useAuth();
@@ -114,7 +115,7 @@ const HoePage = () => {
     <Layout title={"All Products - Best offers"}>
       {/* banner image */}
       <img
-        src="/images/banner.png"
+        src="/images/banner3.avif"
         className="banner-img"
         alt="bannerimage"
         width={"100%"}
@@ -178,7 +179,7 @@ const HoePage = () => {
                   </p>
                   <div className="card-name-price">
                     <button
-                      className="btn btn-info ms-1"
+                      className="btn btn-info ms-1 mr-1"
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
                       More Details
