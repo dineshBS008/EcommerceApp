@@ -49,12 +49,13 @@ const Header = () => {
               🛒 Ecommerce App
             </Link>
 
-            <ul className="navbar-nav mb-2">
+            <ul className="navbar-nav mt-2 mb-2">
               <SearchInput />
-              <li className="nav-item">
+              <li className="nav-item" style={{ marginLeft: "10rem" }}>
                 <NavLink
                   to="/"
                   className="nav-link text-decoration-none text-black-50"
+                  style={{ paddingLeft: " .5rem" }}
                 >
                   Home
                 </NavLink>
@@ -107,7 +108,7 @@ const Header = () => {
                   {/* Issue from here */}
                   <li className="nav-item dropdown">
                     <button
-                      className="nav-link  text-black-50 dropdown-toggle button-no-border mt-2"
+                      className="nav-link  text-black-50 dropdown-toggle button-no-border mr-4 mt-2"
                       onClick={toggleDropdown}
                       type="button"
                       aria-expanded={dropdownOpen}
@@ -148,7 +149,7 @@ const Header = () => {
 
               <li className="nav-item">
                 <Badge count={cart?.length} showZero>
-                  <NavLink to="/cart" className="nav-link text-black-50">
+                  <NavLink to="/cart" className="nav-link text-black-50 mt-1">
                     Cart
                   </NavLink>
                 </Badge>
