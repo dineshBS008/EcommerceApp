@@ -27,3 +27,11 @@
   text-align: center;
   /* margin-top: -140px !important; */
 }
+
+/* added */
+.notification {
+  color: white;
+  background: rgb(61, 64, 62) !important;
+  /* #3C0468 */
+  /* rgb(61, 64, 62) */
+}

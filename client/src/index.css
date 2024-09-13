@@ -18,6 +18,7 @@
   /* if some browser dont support then alternative is just below */
   --webkit-box-shadow: 0 8px 6px -6px gray;
   border-bottom: 0px solid gray !important;
+  background: #f3f3f3;
 }
 
 .navbar-nav {
