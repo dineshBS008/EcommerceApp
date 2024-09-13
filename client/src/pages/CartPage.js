@@ -176,7 +176,7 @@ const CartPage = () => {
                   />
 
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary payement"
                     onClick={handlePayment}
                     disabled={loading || !instance || !auth?.user?.address}
                   >

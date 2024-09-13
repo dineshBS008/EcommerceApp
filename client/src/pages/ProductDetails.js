@@ -41,17 +41,17 @@ const ProductDetails = () => {
 
   return (
     <Layout>
-      <div className="row container mt-2">
+      <div className="row container product-details">
         <div className="col-md-6">
           <img
             src={`/api/v1/product/product-photo/${product._id}`}
             className="card-img-top"
             alt={product.name}
             height="300"
-            width={"350px"}
+            width={"10px"}
           />
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 product-details-info">
           <h1 className="text-center">Product Details</h1>
           <hr />
           <h6>Name : {product.name}</h6>
@@ -68,7 +68,7 @@ const ProductDetails = () => {
         </div>
       </div>
       <hr />
-      <div className="row container">
+      <div className="row container similar-products">
         <h6>Similar Products</h6>
         {relatedProducts.length < 1 && (
           <p className="text-center">No Similar Products found</p>

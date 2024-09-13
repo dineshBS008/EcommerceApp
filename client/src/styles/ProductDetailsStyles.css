@@ -1,5 +1,6 @@
 .product-details {
-  margin-top: 100px !important;
+  margin-top: 20px !important;
+  padding-right: auto;
 }
 
 .product-details-info {
@@ -13,9 +14,15 @@
   margin-bottom: 20px !important;
 }
 
+.product-details .card-img-top {
+  height: auto;
+  width: auto;
+}
+
 .similar-products .card {
   background-color: rgba(128, 128, 128, 0.097);
   width: 18rem;
+  height: auto;
 }
 
 .similar-products .card-name-price {
@@ -46,5 +53,9 @@
 }
 
 .similar-products .card-img-top {
-  height: 300px !important;
+  height: 200px !important;
+}
+
+.similar-products h6 {
+  padding: 10px;
 }
