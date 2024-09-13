@@ -211,8 +211,8 @@ const UpdateProduct = () => {
                   }}
                   value={shipping ? "yes" : "No"}
                 >
-                  <Option value="0">No</Option>
-                  <Option value="1">Yes</Option>
+                  <Option value="0">Yes</Option>
+                  <Option value="1">No</Option>
                 </Select>
               </div>
               <div className="mb-3">
