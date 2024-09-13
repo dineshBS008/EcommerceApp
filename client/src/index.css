@@ -129,3 +129,17 @@
   text-decoration: none !important;
   color: black !important;
 }
+
+.cat-btn {
+  padding: 40px 0px;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+.cat-btn:hover {
+  background-color: #434343;
+  color: white;
+}
+
+/* ================
+====dashboard
+=================== */
