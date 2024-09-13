@@ -149,6 +149,12 @@
   margin: 18px;
 }
 
+/* added  */
+
+.ant-checkbox-wrapper:first-of-type {
+  margin-left: 0px !important;
+}
+
 /* ================
 ====dashboard
 =================== */
