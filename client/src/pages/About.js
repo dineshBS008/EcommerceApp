@@ -8,25 +8,23 @@ const About = () => {
       <div className="row contactus">
         <div className="col-md-6">
           <img
-            src="/images/contactus.jpeg"
+            src="/images/aboutUs.png"
             alt="contactus"
             style={{ width: "100%" }}
           />
         </div>
         <div className="col-md-4">
-          <h1 className="bg-dark p-2 text-white text-center">CONTACT US</h1>
-          <p className="text-justify mt-2">
-            any query and info about product feel free to call anytime we 24X7
-            vaiable
-          </p>
-          <p className="mt-3">
-            <BiMailSend /> : www.help@ecommerceapp.com
-          </p>
-          <p className="mt-3">
-            <BiPhoneCall /> : 014-2123131
-          </p>
-          <p className="mt-3">
-            <BiSupport /> : 1800-0000-1000 (toll free)
+          <h1 className="bg-dark p-2 text-white text-center">ABOUT US</h1>
+          <p className="text-justify mt-5">
+            Welcome to KathmanduGift Hub, your go-to platform for unique and
+            thoughtful gifts. We are dedicated to providing you with the finest
+            selection of gifts for every occasion, focusing on quality,
+            creativity, and customer satisfaction. Founded in 2023,
+            KathmanduGift Hub was born from a passion for helping people express
+            love and appreciation through meaningful presents. Over the years,
+            we have grown into a trusted name in the gifting industry, committed
+            to making every moment special. Thank you for choosing us to be a
+            part of your cherished moments. We look forward to serving you!
           </p>
         </div>
       </div>
