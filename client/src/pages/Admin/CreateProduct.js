@@ -15,10 +15,10 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [shipping, setShipping] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [shipping, setShipping] = useState(""); // Shipping should be either "0" or "1"
+  const [photo, setPhoto] = useState(null); // Initialize as null
 
-  //get all category
+  // Get all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
@@ -27,7 +27,7 @@ const CreateProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
+      toast.error("Something went wrong in getting categories");
     }
   };
 
@@ -35,7 +35,7 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
-  //create product function
+  // Create product function
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
@@ -44,21 +44,46 @@ const CreateProduct = () => {
       productData.append("description", description);
       productData.append("price", price);
       productData.append("quantity", quantity);
-      productData.append("photo", photo);
+      if (photo) productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.post(
+      productData.append("shipping", shipping);
+
+      const { data } = await axios.post(
         "/api/v1/product/create-product",
         productData
       );
+
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
-        toast.success("Product Created Successfully");
+        toast.success("Product Created Successfully", {
+          duration: 4000,
+        });
         navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message || "Failed to create product", {
+          duration: 4000,
+        });
       }
     } catch (error) {
-      console.log(error);
-      toast.error("something went wrong");
+      console.log("Error in handleCreate:", error);
+      if (error.response) {
+        // Server error
+        console.log("Server response error:", error.response.data);
+        toast.error(error.response.data.message || "Something went wrong", {
+          duration: 4000,
+        });
+      } else if (error.request) {
+        // Network error
+        console.log("Network error:", error.request);
+        toast.error("Network error: Could not reach the server", {
+          duration: 4000,
+        });
+      } else {
+        // Other errors
+        console.log("Other error:", error.message);
+        toast.error("Something went wrong", {
+          duration: 4000,
+        });
+      }
     }
   };
 
@@ -78,9 +103,7 @@ const CreateProduct = () => {
                 size="large"
                 showSearch
                 className="form-select mb-3 col-md-12"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
+                onChange={(value) => setCategory(value)}
               >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
@@ -116,7 +139,7 @@ const CreateProduct = () => {
                 <input
                   type="text"
                   value={name}
-                  placeholder="write a name"
+                  placeholder="Write a name"
                   className="form-control"
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -125,17 +148,16 @@ const CreateProduct = () => {
                 <textarea
                   type="text"
                   value={description}
-                  placeholder="write a description"
+                  placeholder="Write a description"
                   className="form-control"
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-
               <div className="mb-3">
                 <input
                   type="number"
                   value={price}
-                  placeholder="write a Price"
+                  placeholder="Write a price"
                   className="form-control"
                   onChange={(e) => setPrice(e.target.value)}
                 />
@@ -144,7 +166,7 @@ const CreateProduct = () => {
                 <input
                   type="number"
                   value={quantity}
-                  placeholder="write a quantity"
+                  placeholder="Write a quantity"
                   className="form-control"
                   onChange={(e) => setQuantity(e.target.value)}
                 />
@@ -152,16 +174,15 @@ const CreateProduct = () => {
               <div className="mb-3">
                 <Select
                   bordered={false}
-                  placeholder="Select Shipping "
+                  placeholder="Select Shipping"
                   size="large"
                   showSearch
                   className="form-select mb-3"
-                  onChange={(value) => {
-                    setShipping(value);
-                  }}
+                  onChange={(value) => setShipping(value)}
+                  value={shipping}
                 >
-                  <Option value="0">Yes</Option>
-                  <Option value="1">No</Option>
+                  <Option value="1">Yes</Option>
+                  <Option value="0">No</Option>
                 </Select>
               </div>
               <div className="mb-3">

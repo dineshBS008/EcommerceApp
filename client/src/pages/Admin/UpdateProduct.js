@@ -20,7 +20,7 @@ const UpdateProduct = () => {
   const [photo, setPhoto] = useState("");
   const [id, setId] = useState("");
 
-  //get single product
+  // Get single product
   const getSingleProduct = async () => {
     try {
       const { data } = await axios.get(
@@ -30,19 +30,23 @@ const UpdateProduct = () => {
       setId(data.product._id);
       setDescription(data.product.description);
       setPrice(data.product.price);
-      setPrice(data.product.price);
       setQuantity(data.product.quantity);
       setShipping(data.product.shipping);
       setCategory(data.product.category._id);
     } catch (error) {
       console.log(error);
+      toast.error("Failed to load product details", {
+        duration: 5000, // Show toast for 5 seconds
+      });
     }
   };
+
   useEffect(() => {
     getSingleProduct();
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
-  //get all category
+
+  // Get all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
@@ -51,7 +55,9 @@ const UpdateProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
+      toast.error("Something went wrong in getting categories", {
+        duration: 5000, // Show toast for 5 seconds
+      });
     }
   };
 
@@ -59,7 +65,7 @@ const UpdateProduct = () => {
     getAllCategory();
   }, []);
 
-  //create product function
+  // Update product function
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -68,42 +74,63 @@ const UpdateProduct = () => {
       productData.append("description", description);
       productData.append("price", price);
       productData.append("quantity", quantity);
-      photo && productData.append("photo", photo);
+      if (photo) productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.put(
+      productData.append("shipping", shipping);
+
+      const { data } = await axios.put(
         `/api/v1/product/update-product/${id}`,
         productData
       );
+
       if (data?.success) {
-        toast.error(data?.message);
+        toast.success("Product Updated Successfully", {
+          duration: 5000, // Show toast for 5 seconds
+        });
+        setTimeout(() => navigate("/dashboard/admin/products"), 5000); // Navigate after toast duration
       } else {
-        toast.success("Product Updated Successfully");
-        navigate("/dashboard/admin/products");
+        toast.error(data?.message || "Failed to update product", {
+          duration: 5000, // Show toast for 5 seconds
+        });
       }
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong");
+      toast.error("Something went wrong", {
+        duration: 5000, // Show toast for 5 seconds
+      });
     }
   };
 
-  //delete a product
+  // Delete product function
   const handleDelete = async () => {
     try {
-      let answer = window.prompt("Are You Sure want to delete this product ? ");
+      let answer = window.prompt(
+        "Are you sure you want to delete this product?"
+      );
       if (!answer) return;
       const { data } = await axios.delete(
         `/api/v1/product/delete-product/${id}`
       );
-      toast.success("Product Deleted Succfully");
-      navigate("/dashboard/admin/products");
+      if (data?.success) {
+        toast.success("Product Deleted Successfully", {
+          duration: 5000, // Show toast for 5 seconds
+        });
+        setTimeout(() => navigate("/dashboard/admin/products"), 5000); // Navigate after toast duration
+      } else {
+        toast.error("Failed to delete product", {
+          duration: 5000, // Show toast for 5 seconds
+        });
+      }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        duration: 5000, // Show toast for 5 seconds
+      });
     }
   };
 
   return (
-    <Layout title={"Dashboard - Create Product"}>
+    <Layout title={"Dashboard - Update Product"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -118,9 +145,7 @@ const UpdateProduct = () => {
                 size="large"
                 showSearch
                 className="form-select mb-3"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
+                onChange={(value) => setCategory(value)}
                 value={category}
               >
                 {categories?.map((c) => (
@@ -129,6 +154,7 @@ const UpdateProduct = () => {
                   </Option>
                 ))}
               </Select>
+
               <div className="mb-3">
                 <label className="btn btn-outline-secondary col-md-12">
                   {photo ? photo.name : "Upload Photo"}
@@ -141,6 +167,7 @@ const UpdateProduct = () => {
                   />
                 </label>
               </div>
+
               <div className="mb-3">
                 {photo ? (
                   <div className="text-center">
@@ -162,20 +189,22 @@ const UpdateProduct = () => {
                   </div>
                 )}
               </div>
+
               <div className="mb-3">
                 <input
                   type="text"
                   value={name}
-                  placeholder="write a name"
+                  placeholder="Write a name"
                   className="form-control"
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
+
               <div className="mb-3">
                 <textarea
                   type="text"
                   value={description}
-                  placeholder="write a description"
+                  placeholder="Write a description"
                   className="form-control"
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -185,41 +214,45 @@ const UpdateProduct = () => {
                 <input
                   type="number"
                   value={price}
-                  placeholder="write a Price"
+                  placeholder="Write a price"
                   className="form-control"
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
+
               <div className="mb-3">
                 <input
                   type="number"
                   value={quantity}
-                  placeholder="write a quantity"
+                  placeholder="Write a quantity"
                   className="form-control"
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>
+
               <div className="mb-3">
                 <Select
                   bordered={false}
-                  placeholder="Select Shipping "
+                  placeholder="Select Shipping"
                   size="large"
                   showSearch
                   className="form-select mb-3"
-                  onChange={(value) => {
-                    setShipping(value);
-                  }}
-                  value={shipping ? "yes" : "No"}
+                  onChange={(value) =>
+                    setShipping(value === "0" ? true : false)
+                  } // Set boolean value
+                  value={shipping ? "0" : "1"} // Display correct value
                 >
                   <Option value="0">Yes</Option>
                   <Option value="1">No</Option>
                 </Select>
               </div>
+
               <div className="mb-3">
                 <button className="btn btn-primary" onClick={handleUpdate}>
                   UPDATE PRODUCT
                 </button>
               </div>
+
               <div className="mb-3">
                 <button className="btn btn-danger" onClick={handleDelete}>
                   DELETE PRODUCT
