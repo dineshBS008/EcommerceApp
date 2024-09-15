@@ -85,9 +85,9 @@ const UpdateProduct = () => {
 
       if (data?.success) {
         toast.success("Product Updated Successfully", {
-          duration: 5000, // Show toast for 5 seconds
+          duration: 2000, // Show toast for 5 seconds
         });
-        setTimeout(() => navigate("/dashboard/admin/products"), 5000); // Navigate after toast duration
+        setTimeout(() => navigate("/dashboard/admin/products"), 2000); // Navigate after toast duration
       } else {
         toast.error(data?.message || "Failed to update product", {
           duration: 2000, // Show toast for 5 seconds
