@@ -55,12 +55,14 @@ const CreateProduct = () => {
 
       if (data?.success) {
         toast.success("Product Created Successfully", {
-          duration: 4000,
+          duration: 2000, // Toast will display for 4 seconds
         });
-        navigate("/dashboard/admin/products");
+        setTimeout(() => {
+          navigate("/dashboard/admin/products"); // Delay navigation by 4 seconds to allow toast display
+        }, 2000);
       } else {
         toast.error(data?.message || "Failed to create product", {
-          duration: 4000,
+          duration: 2000,
         });
       }
     } catch (error) {
@@ -69,19 +71,19 @@ const CreateProduct = () => {
         // Server error
         console.log("Server response error:", error.response.data);
         toast.error(error.response.data.message || "Something went wrong", {
-          duration: 4000,
+          duration: 2000,
         });
       } else if (error.request) {
         // Network error
         console.log("Network error:", error.request);
         toast.error("Network error: Could not reach the server", {
-          duration: 4000,
+          duration: 2000,
         });
       } else {
         // Other errors
         console.log("Other error:", error.message);
         toast.error("Something went wrong", {
-          duration: 4000,
+          duration: 2000,
         });
       }
     }
@@ -179,7 +181,7 @@ const CreateProduct = () => {
                   showSearch
                   className="form-select mb-3"
                   onChange={(value) => setShipping(value)}
-                  value={shipping}
+                  value={shipping || undefined} // Ensure placeholder shows when no value is selected
                 >
                   <Option value="1">Yes</Option>
                   <Option value="0">No</Option>

@@ -36,7 +36,7 @@ const UpdateProduct = () => {
     } catch (error) {
       console.log(error);
       toast.error("Failed to load product details", {
-        duration: 5000, // Show toast for 5 seconds
+        duration: 2000, // Show toast for 5 seconds
       });
     }
   };
@@ -56,7 +56,7 @@ const UpdateProduct = () => {
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong in getting categories", {
-        duration: 5000, // Show toast for 5 seconds
+        duration: 2000, // Show toast for 5 seconds
       });
     }
   };
@@ -90,13 +90,13 @@ const UpdateProduct = () => {
         setTimeout(() => navigate("/dashboard/admin/products"), 5000); // Navigate after toast duration
       } else {
         toast.error(data?.message || "Failed to update product", {
-          duration: 5000, // Show toast for 5 seconds
+          duration: 2000, // Show toast for 5 seconds
         });
       }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", {
-        duration: 5000, // Show toast for 5 seconds
+        duration: 2000, // Show toast for 5 seconds
       });
     }
   };
@@ -113,18 +113,18 @@ const UpdateProduct = () => {
       );
       if (data?.success) {
         toast.success("Product Deleted Successfully", {
-          duration: 5000, // Show toast for 5 seconds
+          duration: 2000, // Show toast for 5 seconds
         });
-        setTimeout(() => navigate("/dashboard/admin/products"), 5000); // Navigate after toast duration
+        setTimeout(() => navigate("/dashboard/admin/products"), 2000); // Navigate after toast duration
       } else {
         toast.error("Failed to delete product", {
-          duration: 5000, // Show toast for 5 seconds
+          duration: 2000, // Show toast for 5 seconds
         });
       }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", {
-        duration: 5000, // Show toast for 5 seconds
+        duration: 2000, // Show toast for 5 seconds
       });
     }
   };
