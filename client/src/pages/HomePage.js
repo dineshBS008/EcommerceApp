@@ -10,25 +10,35 @@ import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/Homepage.css";
 
-const HoePage = () => {
-  const [auth, setAuth] = useAuth();
+const HomePage = () => {
+  const [auth] = useAuth();
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [checked, setChecked] = useState([]);
-  const [radio, setRadio] = useState([]);
+  const [checked, setChecked] = useState([]); // category filters
+  const [radio, setRadio] = useState([]); // price filters
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  //get all cat
+  // Fetch all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
       if (data?.success) {
-        setCategories(data?.category);
+        setCategories(data.category);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Fetch total product count
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/product/product-count");
+      setTotal(data?.total);
     } catch (error) {
       console.log(error);
     }
@@ -37,8 +47,10 @@ const HoePage = () => {
   useEffect(() => {
     getAllCategory();
     getTotal();
+    getAllProducts(); // Fetch products on initial load
   }, []);
-  //get products
+
+  // Fetch products
   const getAllProducts = async () => {
     try {
       setLoading(true);
@@ -51,54 +63,31 @@ const HoePage = () => {
     }
   };
 
-  //getTOtal COunt
-  const getTotal = async () => {
-    try {
-      const { data } = await axios.get("/api/v1/product/product-count");
-      setTotal(data?.total);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (page === 1) return;
-    loadMore();
-  }, [page]);
-
-  //load more
+  // Load more products (pagination)
   const loadMore = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
       setLoading(false);
-      setProducts([...products, ...data?.products]);
+      setProducts((prevProducts) => [...prevProducts, ...data?.products]);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
-  // filter by cat
+  // Apply filter by category
   const handleFilter = (value, id) => {
-    let all = [...checked];
-    if (value) {
-      all.push(id);
-    } else {
-      all = all.filter((c) => c !== id);
-    }
+    const all = value ? [...checked, id] : checked.filter((c) => c !== id);
     setChecked(all);
   };
 
-  useEffect(() => {
-    if (!checked.length || !radio.length) getAllProducts();
-  }, [checked.length, radio.length]);
+  // Apply price filter
+  const handlePriceFilter = (value) => {
+    setRadio(value);
+  };
 
-  useEffect(() => {
-    if (checked.length || radio.length) filterProduct();
-  }, [checked, radio]);
-
-  //get filterd product
+  // Fetch filtered products
   const filterProduct = async () => {
     try {
       const { data } = await axios.post("/api/v1/product/product-filters", {
@@ -111,16 +100,25 @@ const HoePage = () => {
     }
   };
 
+  // Watch for changes in filters (category or price) and apply them
+  useEffect(() => {
+    if (!checked.length && !radio.length) {
+      getAllProducts();
+    } else {
+      filterProduct();
+    }
+  }, [checked, radio]);
+
   return (
     <Layout title={"All Products - Best offers"}>
-      {/* banner image */}
+      {/* Banner Image */}
       <img
         src="/images/banner3.avif"
         className="banner-img"
         alt="bannerimage"
         width={"100%"}
       />
-      {/* banner image */}
+      {/* Filter Section */}
       <div className="container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
@@ -129,15 +127,17 @@ const HoePage = () => {
               <Checkbox
                 key={c._id}
                 onChange={(e) => handleFilter(e.target.checked, c._id)}
+                checked={checked.includes(c._id)}
               >
                 {c.name}
               </Checkbox>
             ))}
           </div>
-          {/* price filter */}
+
+          {/* Price Filter */}
           <h4 className="text-center mt-4">Filter By Price</h4>
           <div className="d-flex flex-column">
-            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+            <Radio.Group onChange={(e) => handlePriceFilter(e.target.value)}>
               {Prices?.map((p) => (
                 <div key={p._id}>
                   <Radio value={p.array}>{p.name}</Radio>
@@ -145,15 +145,22 @@ const HoePage = () => {
               ))}
             </Radio.Group>
           </div>
+
           <div className="d-flex flex-column">
             <button
               className="btn btn-danger"
-              onClick={() => window.location.reload()}
+              onClick={() => {
+                setChecked([]);
+                setRadio([]);
+                window.location.reload();
+              }}
             >
               RESET FILTERS
             </button>
           </div>
         </div>
+
+        {/* Product List Section */}
         <div className="col-md-9 ">
           <h1 className="text-center">All Products</h1>
           <div className="d-flex flex-wrap">
@@ -202,6 +209,7 @@ const HoePage = () => {
               </div>
             ))}
           </div>
+
           <div className="m-2 p-3">
             {products && products.length < total && (
               <button
@@ -228,4 +236,4 @@ const HoePage = () => {
   );
 };
 
-export default HoePage;
+export default HomePage;
