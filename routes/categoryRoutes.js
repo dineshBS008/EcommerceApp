@@ -8,6 +8,8 @@ import {
   updateCategoryController,
 } from "../controllers/categoryController.js";
 
+/* Backend */
+
 const router = express.Router();
 
 //routes

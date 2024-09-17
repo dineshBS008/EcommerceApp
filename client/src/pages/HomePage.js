@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/Homepage.css";
 
+/* Frontend */
+
 const HomePage = () => {
   const [auth] = useAuth();
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  // Fetch all categories
+  // Fetch all categories these are the requests
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
@@ -214,7 +216,7 @@ const HomePage = () => {
                 </div>
               ))
             ) : (
-              <h5 className="text-center txt">0 Results Found</h5>
+              <h5 className="text-center txt">0 result found</h5>
             )}
           </div>
 

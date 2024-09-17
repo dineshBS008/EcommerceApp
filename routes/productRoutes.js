@@ -18,6 +18,8 @@ import {
 } from "../controllers/productController.js";
 import formidable from "express-formidable";
 
+/* Backend */
+
 const router = express.Router();
 
 //routes

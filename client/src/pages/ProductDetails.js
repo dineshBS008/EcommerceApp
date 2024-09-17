@@ -6,6 +6,8 @@ import "../styles/ProductDetailsStyles.css";
 import toast from "react-hot-toast";
 import { useCart } from "../context/cart";
 
+/* Frontend */
+
 const ProductDetails = () => {
   const params = useParams();
   const [product, setProduct] = useState({});
