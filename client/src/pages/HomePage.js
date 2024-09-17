@@ -44,37 +44,60 @@ const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    getAllCategory();
-    getTotal();
-    getAllProducts(); // Fetch products on initial load
-  }, []);
-
-  // Fetch products
+  // Fetch paginated products
   const getAllProducts = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
       setLoading(false);
-      setProducts(data.products);
+      setProducts((prevProducts) => [...prevProducts, ...data.products]);
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
   };
 
-  // Load more products (pagination)
-  const loadMore = async () => {
+  // Fetch filtered products
+  const filterProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      const { data } = await axios.post("/api/v1/product/product-filters", {
+        checked,
+        radio,
+      });
       setLoading(false);
-      setProducts((prevProducts) => [...prevProducts, ...data?.products]);
+      setProducts(data?.products);
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
     }
   };
+
+  // Initial fetch of categories and total product count
+  useEffect(() => {
+    getAllCategory();
+    getTotal();
+  }, []);
+
+  // Fetch products or apply filters based on the filter state
+  useEffect(() => {
+    if (checked.length || radio.length) {
+      // Apply filters
+      filterProducts();
+    } else {
+      // Reset products for unfiltered state
+      setProducts([]);
+      setPage(1); // Reset pagination
+      getAllProducts(); // Fetch all products
+    }
+  }, [checked, radio]);
+
+  // Load more products (pagination)
+  useEffect(() => {
+    if (page > 1 && !(checked.length || radio.length)) {
+      getAllProducts();
+    }
+  }, [page]);
 
   // Apply filter by category
   const handleFilter = (value, id) => {
@@ -86,28 +109,6 @@ const HomePage = () => {
   const handlePriceFilter = (value) => {
     setRadio(value);
   };
-
-  // Fetch filtered products
-  const filterProduct = async () => {
-    try {
-      const { data } = await axios.post("/api/v1/product/product-filters", {
-        checked,
-        radio,
-      });
-      setProducts(data?.products);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Watch for changes in filters (category or price) and apply them
-  useEffect(() => {
-    if (!checked.length && !radio.length) {
-      getAllProducts();
-    } else {
-      filterProduct();
-    }
-  }, [checked, radio]);
 
   return (
     <Layout title={"All Products - Best offers"}>
@@ -138,8 +139,8 @@ const HomePage = () => {
           <h4 className="text-center mt-4">Filter By Price</h4>
           <div className="d-flex flex-column">
             <Radio.Group onChange={(e) => handlePriceFilter(e.target.value)}>
-              {Prices?.map((p) => (
-                <div key={p._id}>
+              {Prices?.map((p, index) => (
+                <div key={index}>
                   <Radio value={p.array}>{p.name}</Radio>
                 </div>
               ))}
@@ -152,7 +153,6 @@ const HomePage = () => {
               onClick={() => {
                 setChecked([]);
                 setRadio([]);
-                window.location.reload();
               }}
             >
               RESET FILTERS
@@ -161,74 +161,85 @@ const HomePage = () => {
         </div>
 
         {/* Product List Section */}
-        <div className="col-md-9 ">
+        <div className="col-md-9">
           <h1 className="text-center">All Products</h1>
           <div className="d-flex flex-wrap">
-            {products?.map((p) => (
-              <div className="card m-2" style={{ width: "18rem" }} key={p._id}>
-                <img
-                  src={`/api/v1/product/product-photo/${p._id}`}
-                  className="card-img-top"
-                  alt={p.name}
-                />
-                <div className="card-body">
-                  <div className="card-name-price">
-                    <h5 className="card-title">{p.name}</h5>
-                    <h5 className="card-title card-price">
-                      {p.price.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </h5>
-                  </div>
-                  <p className="card-text">
-                    {p.description.substring(0, 60)}...
-                  </p>
-                  <div className="card-name-price">
-                    <button
-                      className="btn btn-info ms-1 mr-1"
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                    >
-                      More Details
-                    </button>
-                    <button
-                      className="btn btn-dark ms-1"
-                      onClick={() => {
-                        setCart([...cart, p]);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify([...cart, p])
-                        );
-                        toast.success("Item Added to cart");
-                      }}
-                    >
-                      ADD TO CART
-                    </button>
+            {products && products.length > 0 ? (
+              products?.map((p) => (
+                <div
+                  className="card m-2"
+                  style={{ width: "18rem" }}
+                  key={p._id}
+                >
+                  <img
+                    src={`/api/v1/product/product-photo/${p._id}`}
+                    className="card-img-top"
+                    alt={p.name}
+                  />
+                  <div className="card-body">
+                    <div className="card-name-price">
+                      <h5 className="card-title">{p.name}</h5>
+                      <h5 className="card-title card-price">
+                        {p.price.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </h5>
+                    </div>
+                    <p className="card-text">
+                      {p.description.substring(0, 60)}...
+                    </p>
+                    <div className="card-name-price">
+                      <button
+                        className="btn btn-info ms-1 mr-1"
+                        onClick={() => navigate(`/product/${p.slug}`)}
+                      >
+                        More Details
+                      </button>
+                      <button
+                        className="btn btn-dark ms-1"
+                        onClick={() => {
+                          setCart([...cart, p]);
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify([...cart, p])
+                          );
+                          toast.success("Item Added to cart");
+                        }}
+                      >
+                        ADD TO CART
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <h5 className="text-center txt">0 Results Found</h5>
+            )}
           </div>
 
+          {/* Load More Button */}
           <div className="m-2 p-3">
-            {products && products.length < total && (
-              <button
-                className="btn loadmore"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}
-              >
-                {loading ? (
-                  "Loading ..."
-                ) : (
-                  <>
-                    {" "}
-                    Loadmore <AiOutlineReload />
-                  </>
-                )}
-              </button>
-            )}
+            {products &&
+              products.length < total &&
+              !checked.length &&
+              !radio.length && (
+                <button
+                  className="btn loadmore"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(page + 1);
+                  }}
+                >
+                  {loading ? (
+                    "Loading ..."
+                  ) : (
+                    <>
+                      Load more <AiOutlineReload />
+                    </>
+                  )}
+                </button>
+              )}
           </div>
         </div>
       </div>

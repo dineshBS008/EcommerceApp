@@ -81,3 +81,10 @@
   font-size: 20px !important;
   text-align: left;
 }
+
+/* added lastly */
+.txt {
+  color: #808080;
+  margin-top: 10px;
+  margin-left: 465px;
+}
